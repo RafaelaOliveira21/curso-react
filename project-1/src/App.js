@@ -1,23 +1,20 @@
 import './App.css';
 import { Component } from 'react';
+import { PostCard } from './components/PostCard';
+import {loadPosts} from './uteis/load-posts'
 
 class App extends Component {
   state = {
     posts: []
   };
 
-  componentDidMount() {
-    this.loadPosts();
+  async componentDidMount() {
+    await this.loadPosts();
   }
 
   loadPosts = async () => {
-    const postsResponse = fetch('https://jsonplaceholder.typicode.com/posts');
-
-    const [posts] = await Promise.all([postsResponse]);
-
-    const postsJson = await posts.json();
-
-    this.setState({ posts: postsJson})
+    const postAndPhotos = await loadPosts();
+    this.setState({ posts: postAndPhotos});
   }
 
   render() {
@@ -25,17 +22,6 @@ class App extends Component {
 
     return (
       <section className="container">
-        <div className="posts">
-        {posts.map(post => (
-          <div className="post">
-            <div key={post.id} 
-            className="post-content">
-              <h1>{post.title}</h1>
-              <p>{post.body}</p>
-            </div>
-          </div>
-        ))}
-      </div>
       </section>
     );
   }
