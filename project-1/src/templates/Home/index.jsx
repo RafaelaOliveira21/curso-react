@@ -5,10 +5,14 @@ import { Component } from 'react';
 import {loadPosts} from '../../uteis/load-posts'
 
 import { Posts } from '../../components/Posts';
+import { Button } from '../../Button';
 
 export class Home extends Component {
   state = {
-    posts: []
+    posts: [],
+    allPosts: [],
+    page: 0,
+    postsPerPage: 2,
   };
 
   async componentDidMount() {
@@ -16,8 +20,16 @@ export class Home extends Component {
   }
 
   loadPosts = async () => {
+    const { page, postsPerPage } = this.state;
     const postAndPhotos = await loadPosts();
-    this.setState({ posts: postAndPhotos});
+    this.setState({ 
+      posts: postAndPhotos.slice(page, postsPerPage), 
+      allPosts: postAndPhotos, 
+    });
+  }
+
+  loadMorePosts = () => {
+    console.log("Load more posts chamado");
   }
 
   render() {
@@ -26,6 +38,10 @@ export class Home extends Component {
     return (
       <section className="container">
         <Posts posts={posts} />
+        <Button 
+          text="Load more posts"
+          onClick={this.loadMorePosts}
+        />
       </section>
     );
   }
