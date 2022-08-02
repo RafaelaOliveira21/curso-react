@@ -1,9 +1,12 @@
-import './App.css';
-import { Component } from 'react';
-import { PostCard } from './components/PostCard';
-import {loadPosts} from './uteis/load-posts'
+import './styles.css';
 
-class App extends Component {
+import { Component } from 'react';
+
+import {loadPosts} from '../../uteis/load-posts'
+
+import { Posts } from '../../components/Posts';
+
+export class Home extends Component {
   state = {
     posts: []
   };
@@ -22,9 +25,10 @@ class App extends Component {
 
     return (
       <section className="container">
+        <Posts posts={posts} />
       </section>
     );
   }
 }
 
-export default App;
+export default Home;
