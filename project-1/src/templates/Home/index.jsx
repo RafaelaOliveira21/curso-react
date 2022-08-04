@@ -5,7 +5,10 @@ import { Component } from 'react';
 import {loadPosts} from '../../uteis/load-posts'
 
 import { Posts } from '../../components/Posts';
+
 import { Button } from '../../components/Button';
+
+import { TextInput } from '../../components/TextInput';
 
 export class Home extends Component {
   state = {
@@ -58,25 +61,25 @@ export class Home extends Component {
         searchValue.toLowerCase()
       );
     })
-    : 
-    posts;
+    : posts;
 
     return (
       <section className="container">
-        {!!searchValue && (
-          <>
-            <h1>Search Value: {searchValue}</h1><br></br>
-          </>
+        <div className="search-container">
+          {!!searchValue && (
+              <h1>Search Value: {searchValue}</h1>
+          )}
+
+          <TextInput searchValue={searchValue} handleChange={this.handleChange} />
+        </div>
+        
+        {filteredPosts.length > 0 && (
+          <Posts posts={filteredPosts} />
         )}
 
-        <input 
-          onChange={this.handleChange}
-          value={searchValue}
-          type="search" 
-        />
-        <br /><br /><br />
-
-        <Posts posts={posts} />
+        {filteredPosts.length === 0 && (
+          <p>Não existem posts :c</p>
+        )}
 
         <div className="button-container">
           {!searchValue && (
@@ -84,7 +87,7 @@ export class Home extends Component {
             text="Load more posts"
             onClick={this.loadMorePosts}
             disabled={noMorePosts}
-          />
+            />
           )}
           
         </div>
